@@ -25,6 +25,7 @@ class WebPage {
 */
 
 	public function __construct($aRoute) {
+		$this->mRoute = $aRoute;
 		$data = WebPage::getControllerData($aRoute->getController());
 		$this->title 	= $data['title'];
 		$this->styles 	= $data['styles'];
