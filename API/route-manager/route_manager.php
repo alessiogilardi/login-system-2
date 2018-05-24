@@ -6,6 +6,7 @@ include_once 'web_page.php';
 class RouteManager {
 	private $mRoute;
 
+
 	private static function getCurrentUri() {
  		return parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 	}
@@ -22,13 +23,6 @@ class RouteManager {
 
 	public function getRoute() {
 		return $this->mRoute;
-	}
-
-	public function dispatch() {
-		$controller = $this->getRoute()->getController();
-		$action 	= $this->getRoute()->getAction();
-		$params		= $this->getRoute()->getParams();
-		
 	}
 }
 

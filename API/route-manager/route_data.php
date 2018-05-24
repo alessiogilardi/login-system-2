@@ -6,6 +6,8 @@ define('BASE_ROUTE', array('area' => '', 'controller' => '', 'action' => '', 'pa
 
 define('CONTROLLERS', array('', 'login', 'logout', 'register', 'user', 'welcome'));
 
+define('DEFAULT_CONTROLLER_PATH', __DIR__.'/controllers')
+
 
 
 
