@@ -49,6 +49,8 @@ class Dispatcher {
     			require_once getFileName($controller);
     		}
     	}
+
+    	// header 404
     }
 
 /*
