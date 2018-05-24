@@ -8,6 +8,9 @@ class WebPage {
 	private $body;
 	private $footer;
 
+	// forse meglio definire:
+	private $_params = array('title' => '', 'styles' => '');
+
 	private $mRoute;
 
 	private static function getControllerData($controller) {
