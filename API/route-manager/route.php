@@ -11,7 +11,7 @@ class Route {
 		return $instance;
 	}
 
-	public static function buildFromRoute($route) {
+	public static function buildFromRoute(Route $route) {
 		//$instance = new Route($route->getUri());
 		$instance = new Route();
 		$instance->clone($route);
@@ -24,7 +24,7 @@ class Route {
 		return CONTROLLER_DATA['404'];
 	}
 */
-	private static function buildRouteFromUri($aUri = '') {
+	private static function createRouteByUri($aUri = '') {
 		$route = BASE_ROUTE;
 		$urlSegments = array_slice(explode('/', $aUri), ROUTE_LEVEL);
 
@@ -40,7 +40,7 @@ class Route {
 	}
 
 	private function __construct($aUri) {
-		$route = Route::buildRouteFromUri($aUri);
+		$route = Route::createRouteByUri($aUri);
 		//var_dump($route);
 		$this->uri 			= $aUri;
 		$this->area 		= $route['area'];
@@ -71,11 +71,11 @@ class Route {
 	}
 
 	public function clone($aRoute) {
-		$this->uri = $aRoute->getUri();
-		$this->area = $aRoute->getArea();
-		$this->controller = $aRoute->getController();
-		$this->action = $aRoute->getAction();
-		$this->params = $aRoute->getParams();
+		$this->uri 			= $aRoute->getUri();
+		$this->area 		= $aRoute->getArea();
+		$this->controller 	= $aRoute->getController();
+		$this->action 		= $aRoute->getAction();
+		$this->params 		= $aRoute->getParams();
 	}
 }
 ?>
