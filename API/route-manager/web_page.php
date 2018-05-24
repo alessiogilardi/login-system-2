@@ -1,6 +1,6 @@
 <?php 
 
-class WebPage {
+class WebPage { // le varie pagine possono estendere questa
 	private $title;
 	private $styles;
 	private $scripts;
