@@ -8,6 +8,9 @@ class Dispatcher {
 	private $_headers = array();
 	private $_controllerPath;
 
+	// per poter ottenere il camel case dei controllers usa i nomi dei file così: nome-del-file.php
+	// per i metodi vediamo
+
 	private function getFileName($controller) {
 		return $this->getControllerPath().$controller.'.php'
 	}
