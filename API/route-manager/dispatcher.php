@@ -15,23 +15,20 @@ class Dispatcher {
 	// per poter ottenere il camel case dei controllers usa i nomi dei file così: nome-del-file.php
 	// per i metodi vediamo
 
-	private function getControllerPath() {
-    	return $this->_controllerPath;
-    }
-
-	private function getClassPath($controller) {
-		return $this->getControllerPath().DIRECTORY_SEPARATOR.$controller.'.php'
+	
+	public function getClassPath($controller) {
+		return $this->getControllerPath().DIRECTORY_SEPARATOR.str_replace($_delimiter, '_', $controller).'.php'
 	}
 
-	private function getClassName($controller) {
+	public function getClassName($controller) {
 		return ucwords($controller, $_delimiter);
 	}
 
-	private function loadClass($classPath) {
+	public function loadClass($classPath) {
 		require_once $classPath;
 	}
 
-	private function getMethod() {
+	public function getMethod() {
 		return $this->_rm->getRoute()->getAction();
 	}
 
@@ -57,6 +54,10 @@ class Dispatcher {
         $this->_controllerPath = $path;
     }
 
+    public function getControllerPath() {
+    	return $this->_controllerPath;
+    }
+
     
     public function dispatch() {
     	$route = $this->getRouteManger()->getRoute();
@@ -76,17 +77,17 @@ class Dispatcher {
     	$controller->setAction($route->getAction());
 
     	if (method_exists($controller, $method)) {
-    		$controller->action();
+    		//$controller->action();
+    		return $controller;
     	} else {
     		throw new RuntimeException('Page not found {'.$classPath.'}->{'.$method.'}', 404);
-
     	}
     }
 
 	public function sendHeaders() {
         $headers = $this->getHeaders();
         foreach ($headers as $header) {
-            header($header["string"], $header["replace"], $header["code"]);
+            header($header['string'], $header['replace'], $header['code']);
         }
     }
 
@@ -95,7 +96,7 @@ class Dispatcher {
     }
 
     public function addHeader($key, $value, $httpCode = 200, $replace  = true) {
-        $this->_headers[] = array('string' => "{$key}:{$value}", "replace" => $replace, "code" => (int)$httpCode);
+        $this->_headers[] = array('string' => "{$key}:{$value}", 'replace'=> $replace, 'code' => (int)$httpCode);
     }
 
     public function getHeaders() {

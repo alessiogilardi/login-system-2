@@ -30,6 +30,7 @@ class Controller {
 
 	public function action() {
 		// calls the method saved in action
+		$this->_action($this->_params);
 	}
 
 }
