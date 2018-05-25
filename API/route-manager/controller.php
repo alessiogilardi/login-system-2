@@ -7,7 +7,7 @@ class Controller {
 	private $_params;
 	private $_action;
 	
-	public function __construct(argument) {
+	public function __construct() {
 		# code...
 	}
 

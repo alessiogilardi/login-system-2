@@ -12,9 +12,9 @@ class Dispatcher {
 	private $_controllerPath = __DIR__.DIRECTORY_SEPARATOR.'controllers'
 	private $_delimiter = '-';
 
-	// per poter ottenere il camel case dei controllers usa i nomi dei file così: nome-del-file.php
-	// per i metodi vediamo
-
+	private function loadClass($classPath) {
+		require_once $classPath;
+	}
 	
 	public function getClassPath($controller) {
 		return $this->getControllerPath().DIRECTORY_SEPARATOR.str_replace($_delimiter, '_', $controller).'.php'
@@ -24,20 +24,10 @@ class Dispatcher {
 		return ucwords($controller, $_delimiter);
 	}
 
-	public function loadClass($classPath) {
-		require_once $classPath;
-	}
-
 	public function getMethod() {
 		return $this->_rm->getRoute()->getAction();
 	}
 
-
-/*
-	public function __construct(RouteManager $rm) {
-		$this->_rm = $rm;
-	}
-*/
 	public function __construct() {
 		//
 	}
@@ -57,7 +47,6 @@ class Dispatcher {
     public function getControllerPath() {
     	return $this->_controllerPath;
     }
-
     
     public function dispatch() {
     	$route = $this->getRouteManger()->getRoute();
