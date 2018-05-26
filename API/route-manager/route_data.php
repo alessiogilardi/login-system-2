@@ -6,7 +6,7 @@ define('BASE_ROUTE', array('area' => '', 'controller' => '', 'action' => '', 'pa
 
 //define('CONTROLLERS', array('', 'login', 'logout', 'register', 'user', 'welcome'));
 
-define('DEFAULT_CONTROLLER_PATH', __DIR__.'/controllers')
+define('DEFAULT_CONTROLLER_PATH', __DIR__.'/controllers');
 
 
 
@@ -50,12 +50,12 @@ define('CONTROLLER_DATA', array(
 				'files' => array('head' => '', 
 							'body' => '', 
 							'footer' => ''))));
-
-define(ACTIONS, array(
+/*
+define('ACTIONS', array(
 	'login' => array('' => function() {}), 
 	'register' => array('' => function() {}, 'activate' => function() {}),
 	'users' => array()));
-
+*/
 
 $dispatcher = array(
   '' => function() {

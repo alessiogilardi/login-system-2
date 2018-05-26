@@ -2,14 +2,14 @@
 /**
  * Il Dispatcher deve solo occuparsi di fornire il file controller con i vari controlli del caso, il file si occuperà di eseguire i comandi * giusti
  */
-define('DIRECTORY_SEPARATOR', '/');
+//define('DIRECTORY_SEPARATOR', '/');
 define('BASE_CONTROLLER', 'Controller');
 
 class Dispatcher {
 	private $_rm; // RouteManager
 
 	private $_headers = array();
-	private $_controllerPath = __DIR__.DIRECTORY_SEPARATOR.'controllers'
+	private $_controllerPath = __DIR__.DIRECTORY_SEPARATOR.'controllers';
 	private $_delimiter = '-';
 
 	private function loadClass($classPath) {
@@ -17,11 +17,11 @@ class Dispatcher {
 	}
 	
 	public function getClassPath($controller) {
-		return $this->getControllerPath().DIRECTORY_SEPARATOR.str_replace($_delimiter, '_', $controller).'.php'
+		return $this->getControllerPath().DIRECTORY_SEPARATOR.str_replace($this->_delimiter, '_', $controller).'.php';
 	}
 
 	public function getClassName($controller) {
-		return ucwords($controller, $_delimiter);
+		return ucwords($controller, $this->_delimiter);
 	}
 
 	public function getMethod() {
@@ -49,11 +49,11 @@ class Dispatcher {
     }
     
     public function dispatch() {
-    	$route = $this->getRouteManger()->getRoute();
-    	$controllerName = $route->getController();
-    	$classPath 	= $this->getClassPath($controller);
-    	$className 	= $this->getClassName($controller);
-    	$method 	= $this->getMethod();
+    	$route             = $this->getRouteManager()->getRoute();
+    	$controllerName    = $route->getController();
+    	$classPath 	       = $this->getClassPath($controllerName);
+    	$className 	       = $this->getClassName($controllerName);
+    	$method 	       = $this->getMethod();
     	if (!file_exists($classPath)) {
     		$classPath = $this->getClassPath(BASE_CONTROLLER);
     		$className = $this->getClassName(BASE_CONTROLLER);

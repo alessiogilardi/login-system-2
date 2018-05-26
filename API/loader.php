@@ -25,15 +25,18 @@ class Loader
 			'./API/constants/database.php',
 			'./API/constants/error_codes.php',
 			'./API/constants/html_form.php',
-			'./API/constants/security.php',
 			'./API/constants/session.php'
+		);
+
+		$security = array(
+			'./API/security/security.php'
 		);
 
 		$database = array(
 			'./API/db/db_adapter.php'
 		);
 
-		$classes = array_merge($routing, $constants, $database);
+		$classes = array_merge($routing, $constants, $security, $database);
 		foreach ($classes as $className) {
 			require_once $className;
 		}
