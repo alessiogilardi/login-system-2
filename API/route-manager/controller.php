@@ -8,7 +8,7 @@ class Controller {
 	private $_action;
 	
 	public function __construct() {
-		# code...
+		echo 'Controller started!';
 	}
 
 	public function setParams($params) {

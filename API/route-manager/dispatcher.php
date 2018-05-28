@@ -3,7 +3,7 @@
  * Il Dispatcher deve solo occuparsi di fornire il file controller con i vari controlli del caso, il file si occuperà di eseguire i comandi * giusti
  */
 //define('DIRECTORY_SEPARATOR', '/');
-define('BASE_CONTROLLER', 'controller');
+define('BASE_CONTROLLER', 'Controller');
 
 class Dispatcher {
 	private $_rm; // RouteManager
@@ -24,8 +24,9 @@ class Dispatcher {
 		return ucwords($controller, $this->_delimiter);
 	}
 
-	public function getMethod() {
-		return $this->_rm->getRoute()->getAction();
+	public function getMethod($action) {
+		//return $this->_rm->getRoute()->getAction();
+		return lcfirst(ucwords($action, $this->_delimiter)); // Va ritornata la action in camel case con la prima lettera minuscola
 	}
 
 	public function __construct() {
@@ -53,7 +54,7 @@ class Dispatcher {
     	$controllerName    = $route->getController();
     	$classPath 	       = $this->getClassPath($controllerName);
     	$className 	       = $this->getClassName($controllerName);
-    	$method 	       = $this->getMethod();
+    	$method            = $this->getMethod($route->getAction());
 
     	//////////////////////
     	//echo $classPath.'<br>';
@@ -61,24 +62,29 @@ class Dispatcher {
     	//echo $method.'<br>';
     	//////////////////////
 
+    	echo $classPath;
+
     	if (!file_exists($classPath)) {
-    		$classPath = $this->getClassPath(BASE_CONTROLLER);
+    		//$classPath = $this->getClassPath(BASE_CONTROLLER);
+    		$classPath = __DIR__.DIRECTORY_SEPARATOR.'controller'.'.php';
+    		
     		$className = $this->getClassName(BASE_CONTROLLER);
-    		echo "non esiste";
     	} else {
     		$this->loadClass($classPath);
-    		echo 'QUI';
     	}
 
     	$controller = new $className;
     	$controller->setParams($route->getParams());
-    	$controller->setAction($route->getAction());
+    	$controller->setAction($method);
 
-    	if (method_exists($controller, $method)) {
-    		//$controller->action();
-    		return $controller;
-    	} else {
-    		//throw new RuntimeException('Page not found {'.$classPath.'}->{'.$method.'}', 404);
+    	/*if (isset($method)) { */ if ($method != '') {
+	    	if (method_exists($controller, $method)) {
+	    		$controller->setParams($route->getParams());
+	    		$controller->setAction($method);
+	    		return $controller;
+	    	} else {
+	    		throw new RuntimeException('Page not found '.$classPath.'->'.$method, 404);
+	    	}
     	}
     }
 
