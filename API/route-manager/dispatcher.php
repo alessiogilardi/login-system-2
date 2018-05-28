@@ -3,7 +3,7 @@
  * Il Dispatcher deve solo occuparsi di fornire il file controller con i vari controlli del caso, il file si occuperà di eseguire i comandi * giusti
  */
 //define('DIRECTORY_SEPARATOR', '/');
-define('BASE_CONTROLLER', 'Controller');
+define('BASE_CONTROLLER', 'controller');
 
 class Dispatcher {
 	private $_rm; // RouteManager
@@ -54,11 +54,20 @@ class Dispatcher {
     	$classPath 	       = $this->getClassPath($controllerName);
     	$className 	       = $this->getClassName($controllerName);
     	$method 	       = $this->getMethod();
+
+    	//////////////////////
+    	//echo $classPath.'<br>';
+    	//echo $className.'<br>';
+    	//echo $method.'<br>';
+    	//////////////////////
+
     	if (!file_exists($classPath)) {
     		$classPath = $this->getClassPath(BASE_CONTROLLER);
     		$className = $this->getClassName(BASE_CONTROLLER);
+    		echo "non esiste";
     	} else {
     		$this->loadClass($classPath);
+    		echo 'QUI';
     	}
 
     	$controller = new $className;
@@ -69,7 +78,7 @@ class Dispatcher {
     		//$controller->action();
     		return $controller;
     	} else {
-    		throw new RuntimeException('Page not found {'.$classPath.'}->{'.$method.'}', 404);
+    		//throw new RuntimeException('Page not found {'.$classPath.'}->{'.$method.'}', 404);
     	}
     }
 

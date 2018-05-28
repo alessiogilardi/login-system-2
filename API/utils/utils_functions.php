@@ -1,6 +1,4 @@
 <?
-include_once "redirect.php";
-
 
 
 function generateRandomToken($length = 128) {
