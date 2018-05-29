@@ -6,6 +6,7 @@ class Security {
 
 	private const MASTER_KEY =
 		'iCRZxINfYS9j69IJ7Ns8jr3iIMmBwrgLHfuUZTaVPtOTtQ6QLkIFMSAAtKRiaDa6a02yhXAsMmhZOQ60v5xXlX3wlPoI5YMXcSvVUhqdasMHIrKmIgynV9mnoJbllFbF';
+	private const SEPARATOR = ':';
 	private $_key = '';
 	private $_algo = 'sha256';
 /*
@@ -32,7 +33,7 @@ class Security {
 	}
 
 	public function getMasterKey() {
-		return $this->MASTER_KEY;
+		return Security::MASTER_KEY;
 	}
 
 	public function generateToken($length) {
@@ -59,7 +60,7 @@ class Security {
 		$algo 	= $this->getAlgo();
 		$key 	= $this->getKey();
 		$master = $this->getMasterKey();
-		return $value.':'.$algo.':'.hash_hmac($algo, $value, $key.$master);
+		return $value.Security::SEPARATOR.$algo.Security::SEPARATOR.hash_hmac($algo, $value, $key.$master);
 		//return $value.hash_hmac($algo, $value, $key.$master);
 	}
 
@@ -77,7 +78,7 @@ class Security {
 
 	private function extractData($signed) {
 		if (Security::isWellFormed($signed)) {
-			return array_fill_keys(array('value', 'algo', 'mac'), explode(':', $signed));
+			return array_fill_keys(array('value', 'algo', 'mac'), explode(Security::SEPARATOR, $signed));
 		}
 		throw new RuntimeException("The signed value is badly formed", 1);
 	}
@@ -86,7 +87,7 @@ class Security {
 	* Checks if a signed string is well formed and can be extracted to data, algo, signature
 	*/
 	private static function isWellFormed($signed) {
-		return (substr_count($signed, ':') == 2);
+		return (substr_count($signed, Security::SEPARATOR) == 2);
 	}
 /*
 	public static function hashSign($value, $signature = '') {
