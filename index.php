@@ -3,6 +3,10 @@ require_once './API/core.php';
 $sec = new Security(128);
 
 
+//echo parse_url($url, PHP_URL_PATH);
+
+
+
 /*
 $rm = new RouteManager();
 $dis = new Dispatcher();

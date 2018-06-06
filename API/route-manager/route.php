@@ -1,10 +1,12 @@
 <?php
 class Route {
-	private $uri;
-	private $area;
-	private $controller;
-	private $action;
-	private $params;
+	private const SCHEME = array('area', 'controller', 'action', 'params');
+
+	private $uri = '';
+	private $area = '';
+	private $controller = '';
+	private $action = '';
+	private $params = array();
 
 	public static function buildFromUri($uri) {
 		$instance = new Route($uri);
@@ -17,6 +19,22 @@ class Route {
 		$instance->clone($route);
 		return $instance;
 	}
+
+	public static function parseUri($aUri) {
+		$route = BASE_ROUTE;
+		$urlSegments = explode('/', $aUri);
+		if (count(Route::SCHEME) != count($urlSegments)) {
+			throw new RuntimeException('Malformed URI', -15);
+		}
+
+		foreach ($urlSegments as $index => $segment) {
+			$route[SCHEME[$index]] = $segment;
+		}
+
+		return $route;
+	}
+
+
 /*
 	public static function getControllerData($controller) {
 		if (isset(CONTROLLER_DATA[$controller]))
@@ -24,6 +42,7 @@ class Route {
 		return CONTROLLER_DATA['404'];
 	}
 */
+	/*
 	private static function createRouteByUri($aUri = '') {
 		$route = BASE_ROUTE;
 		$urlSegments = array_slice(explode('/', $aUri), ROUTE_LEVEL);
@@ -38,15 +57,15 @@ class Route {
 	    }
 		return $route;
 	}
-
+*/
 	private function __construct($aUri) {
-		$route = Route::createRouteByUri($aUri);
+		$route = Route::parseUri($aUri);
 		//var_dump($route);
 		$this->uri 			= $aUri;
 		$this->area 		= $route['area'];
 		$this->controller 	= $route['controller'];
 		$this->action 		= $route['action'];
-		$this->params 		= $route['params'];
+		//$this->params 		= $route['params'];
 
 	}
 

@@ -1,7 +1,7 @@
 <?php
 define('ROUTE_LEVEL', 1);
 define('PARAMS', 3);
-define('SCHEME', array('area', 'controller', 'action', 'params'));
+//define('SCHEME', array('area', 'controller', 'action', 'params'));
 define('BASE_ROUTE', array('area' => '', 'controller' => '', 'action' => '', 'params' => ''));
 
 //define('CONTROLLERS', array('', 'login', 'logout', 'register', 'user', 'welcome'));
