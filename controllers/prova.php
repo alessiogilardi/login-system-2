@@ -9,6 +9,10 @@ class Prova extends Controller {
 		parent::__construct();
 		echo "Classe Prova";
 	}
+
+	public function print($data) {
+		var_dump($this->getParams());
+	}
 }
 
 ?>

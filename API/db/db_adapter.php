@@ -3,7 +3,7 @@
 /**
  * 
  */
-class DBAdapter {
+class DbAdapter {
 	private const CONNECTION_FAILED = -10;
 	private const MISSING_CONNECTION = -11;
 	private const BAD_INPUT = -12;

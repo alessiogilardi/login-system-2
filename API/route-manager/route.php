@@ -2,99 +2,73 @@
 class Route {
 	private const SCHEME = array('area', 'controller', 'action', 'params');
 
-	private $uri = '';
-	private $area = '';
-	private $controller = '';
-	private $action = '';
-	private $params = array();
-
-	public static function buildFromUri($uri) {
-		$instance = new Route($uri);
-		return $instance;
-	}
-
+	private $_uri = '';
+	private $_area = '';
+	private $_controller = '';
+	private $_action = '';
+	private $_params = array('POST' => array(), 'GET' => array());
+/*
 	public static function buildFromRoute(Route $route) {
 		//$instance = new Route($route->getUri());
 		$instance = new Route();
 		$instance->clone($route);
 		return $instance;
 	}
-
+*/
 	public static function parseUri($aUri) {
 		$route = BASE_ROUTE;
 		$urlSegments = explode('/', $aUri);
-		if (count(Route::SCHEME) != count($urlSegments)) {
+		if (count(Route::SCHEME) < count($urlSegments)) {
 			throw new RuntimeException('Malformed URI', -15);
 		}
 
 		foreach ($urlSegments as $index => $segment) {
-			$route[SCHEME[$index]] = $segment;
+			$route[Route::SCHEME[$index]] = $segment;
 		}
 
 		return $route;
 	}
 
-
-/*
-	public static function getControllerData($controller) {
-		if (isset(CONTROLLER_DATA[$controller]))
-			return CONTROLLER_DATA[$controller];
-		return CONTROLLER_DATA['404'];
+	private function parseParams() {
+		$this->_params['POST'] 	= $_POST;
+		$this->_params['GET'] 	= $_GET;
 	}
-*/
-	/*
-	private static function createRouteByUri($aUri = '') {
-		$route = BASE_ROUTE;
-		$urlSegments = array_slice(explode('/', $aUri), ROUTE_LEVEL);
 
-		foreach ($urlSegments as $index => $segment) {
-	        if (SCHEME[$index] == SCHEME[PARAMS]) {
-	            $route['params'] = array_slice($urlSegments, $index);
-	            break;
-	        } else {
-	            $route[SCHEME[$index]] = $segment; # Senza lower case
-	        }
-	    }
-		return $route;
-	}
-*/
-	private function __construct($aUri) {
+	public function __construct($aUri) {
 		$route = Route::parseUri($aUri);
-		//var_dump($route);
-		$this->uri 			= $aUri;
-		$this->area 		= $route['area'];
-		$this->controller 	= $route['controller'];
-		$this->action 		= $route['action'];
-		//$this->params 		= $route['params'];
-
+		$this->_uri 		= $aUri;
+		$this->_area 		= $route['area'];
+		$this->_controller 	= $route['controller'];
+		$this->_action 		= $route['action'];
+		$this->parseParams();
 	}
 
 	public function getUri() {
-		return $this->uri;
+		return $this->_uri;
 	}
 
 	public function getArea() {
-		return $this->area;
+		return $this->_area;
 	}
 
 	public function getController() {
-		return $this->controller;
+		return $this->_controller;
 	}
 
 	public function getAction() {
-		return $this->action;
+		return $this->_action;
 	}
 
 	public function getParams() {
-		return $this->params;
+		return $this->_params;
 	}
 
 	public function clone($aRoute) {
-		$this->uri 			= $aRoute->getUri();
-		$this->area 		= $aRoute->getArea();
-		$this->controller 	= $aRoute->getController();
-		$this->action 		= $aRoute->getAction();
-		$this->params 		= $aRoute->getParams();
+		$this->_uri 		= $aRoute->getUri();
+		$this->_area 		= $aRoute->getArea();
+		$this->_controller 	= $aRoute->getController();
+		$this->_action 		= $aRoute->getAction();
+		$this->_params 		= $aRoute->getParams();
 	}
 }
 ?>

@@ -8,7 +8,7 @@ class Controller {
 	private $_action;
 	
 	public function __construct() {
-		echo 'Controller started!';
+		echo '<br>Controller started.<br>';
 	}
 
 	public function setParams($params) {
@@ -32,6 +32,8 @@ class Controller {
 		// calls the method saved in action
 		$this->_action($this->_params);
 	}
+
+	
 
 }
 

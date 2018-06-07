@@ -14,7 +14,15 @@ class RouteManager {
 
 	private static function generateCurrentRoute() {
 		//return new Route(getCurrentUri());
-		return Route::buildFromUri(RouteManager::getCurrentUri());
+		return new Route(RouteManager::getCurrentUri());
+	}
+
+	public static function isPost() {
+		return ($_SERVER['REQUEST_METHOD'] == 'POST');
+	}
+
+	public static function isGet() {
+		return ($_SERVER['REQUEST_METHOD'] == 'GET');
 	}
 
 	public function __construct() {

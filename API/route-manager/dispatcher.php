@@ -9,7 +9,9 @@ class Dispatcher {
 	private $_rm; // RouteManager
 
 	private $_headers = array();
-	private $_controllerPath = __DIR__.DIRECTORY_SEPARATOR.'controllers';
+	//private $_controllerPath = .DIRECTORY_SEPARATOR.'controllers';
+    // !!!!!ATTENZIONE DA MODIFICARE!!!!!! Il percorso deve essere ricavato!!!!!!
+    private $_controllerPath = 'C:\\xampp\\htdocs\\login-system'.DIRECTORY_SEPARATOR.'controllers'; 
 	private $_delimiter = '-';
 
 	private function loadClass($classPath) {
@@ -62,7 +64,7 @@ class Dispatcher {
     	//echo $method.'<br>';
     	//////////////////////
 
-    	echo $classPath;
+    	//echo $classPath;
 
     	if (!file_exists($classPath)) {
     		//$classPath = $this->getClassPath(BASE_CONTROLLER);
@@ -76,11 +78,12 @@ class Dispatcher {
     	$controller = new $className;
     	$controller->setParams($route->getParams());
     	$controller->setAction($method);
-
+        //echo $method;
     	/*if (isset($method)) { */ if ($method != '') {
 	    	if (method_exists($controller, $method)) {
 	    		$controller->setParams($route->getParams());
 	    		$controller->setAction($method);
+                //$controller->$method('');
 	    		return $controller;
 	    	} else {
 	    		throw new RuntimeException('Page not found '.$classPath.'->'.$method, 404);
