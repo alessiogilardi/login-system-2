@@ -2,7 +2,7 @@
 /**
  * 
  */
-class Controller {
+abstract class Controller {
 
 	private $_params;
 	private $_action;
@@ -28,13 +28,23 @@ class Controller {
 		$this->_action = $action;
 	}
 
-	public function action() {
-		// calls the method saved in action
-		$this->_action($this->_params);
+	abstract protected function action();
+
+	protected function getAction() {
+		return $this->_action;
 	}
 
-	
+/*
+	public function action() {
+		// calls the method saved in action
+		//$this->_action($this->_params);
+		$this->getAction()();
+	}
 
+	private function getAction() {
+		return $this->_action;
+	}
+*/
 }
 
 ?>

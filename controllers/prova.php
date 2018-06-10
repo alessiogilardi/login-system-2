@@ -10,8 +10,13 @@ class Prova extends Controller {
 		echo "Classe Prova";
 	}
 
-	public function print($data) {
-		var_dump($this->getParams());
+	protected function action() {
+		$this->getAction()('');
+	}
+
+	private function print($data) {
+		echo "Prova della funzione print";
+		//var_dump($this->getParams());
 	}
 }
 

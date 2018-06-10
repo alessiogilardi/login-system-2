@@ -3,15 +3,16 @@
  * Il Dispatcher deve solo occuparsi di fornire il file controller con i vari controlli del caso, il file si occuperà di eseguire i comandi * giusti
  */
 //define('DIRECTORY_SEPARATOR', '/');
-define('BASE_CONTROLLER', 'Controller');
+//define('BASE_CONTROLLER', 'Controller');
 
 class Dispatcher {
-	private $_rm; // RouteManager
+    private const DEFAULT_CONTROLLER = 'controller';
 
+	private $_rm; // RouteManager
 	private $_headers = array();
 	//private $_controllerPath = .DIRECTORY_SEPARATOR.'controllers';
     // !!!!!ATTENZIONE DA MODIFICARE!!!!!! Il percorso deve essere ricavato!!!!!!
-    private $_controllerPath = 'C:\\xampp\\htdocs\\login-system'.DIRECTORY_SEPARATOR.'controllers'; 
+    private $_controllerPath; /*= 'C:\\xampp\\htdocs\\login-system'.DIRECTORY_SEPARATOR.'controllers'; */
 	private $_delimiter = '-';
 
 	private function loadClass($classPath) {
@@ -23,12 +24,13 @@ class Dispatcher {
 	}
 
 	public function getClassName($controller) {
-		return ucwords($controller, $this->_delimiter);
+        echo "<br>".str_replace($this->_delimiter, '', ucwords($controller, $this->_delimiter))."<br>";
+		return str_replace($this->_delimiter, '', ucwords($controller, $this->_delimiter));
 	}
 
-	public function getMethod($action) {
-		//return $this->_rm->getRoute()->getAction();
-		return lcfirst(ucwords($action, $this->_delimiter)); // Va ritornata la action in camel case con la prima lettera minuscola
+	public function getMethodName($action) {
+        echo "<br>".str_replace($this->_delimiter, '', lcfirst(ucwords($action, $this->_delimiter)))."<br>";
+		return str_replace($this->_delimiter, '', lcfirst(ucwords($action, $this->_delimiter))); // Va ritornata la action in camel case con la prima lettera minuscola
 	}
 
 	public function __construct() {
@@ -52,42 +54,36 @@ class Dispatcher {
     }
     
     public function dispatch() {
+        if ($this->getRouteManager() == NULL) {
+            throw new RuntimeException('RouteManager not set', 1);
+        }
+
+        if ($this->getControllerPath() == NULL) {
+            throw new RuntimeException('Controllers path not set', 1);
+        }
+
     	$route             = $this->getRouteManager()->getRoute();
     	$controllerName    = $route->getController();
     	$classPath 	       = $this->getClassPath($controllerName);
     	$className 	       = $this->getClassName($controllerName);
-    	$method            = $this->getMethod($route->getAction());
-
-    	//////////////////////
-    	//echo $classPath.'<br>';
-    	//echo $className.'<br>';
-    	//echo $method.'<br>';
-    	//////////////////////
-
-    	//echo $classPath;
 
     	if (!file_exists($classPath)) {
-    		//$classPath = $this->getClassPath(BASE_CONTROLLER);
-    		$classPath = __DIR__.DIRECTORY_SEPARATOR.'controller'.'.php';
-    		
-    		$className = $this->getClassName(BASE_CONTROLLER);
+            $this->setControllerPath(__DIR__);
+    		$classPath = $this->getClassPath(Dispatcher::DEFAULT_CONTROLLER);
+    		$className = $this->getClassName(Dispatcher::DEFAULT_CONTROLLER);
     	} else {
     		$this->loadClass($classPath);
     	}
 
     	$controller = new $className;
-    	$controller->setParams($route->getParams());
-    	$controller->setAction($method);
-        //echo $method;
-    	/*if (isset($method)) { */ if ($method != '') {
-	    	if (method_exists($controller, $method)) {
-	    		$controller->setParams($route->getParams());
-	    		$controller->setAction($method);
-                //$controller->$method('');
-	    		return $controller;
-	    	} else {
-	    		throw new RuntimeException('Page not found '.$classPath.'->'.$method, 404);
-	    	}
+    	if ($route->getAction() !== NULL) {
+            $method = $this->getMethodName($route->getAction());
+            if (!method_exists($controller, $method)) {
+                throw new RuntimeException('Page not found '.$classPath.'->'.$method, 404);
+            }
+            $controller->setParams($route->getParams());
+	    	$controller->setAction($method);
+	    	return $controller;
     	}
     }
 

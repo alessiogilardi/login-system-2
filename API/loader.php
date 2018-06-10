@@ -17,7 +17,6 @@ class Loader
 			'./API/route-manager/route_manager.php',
 			'./API/route-manager/route.php',
 			'./API/route-manager/dispatcher.php',
-			'./API/route-manager/route_data.php',
 			'./API/route-manager/controller.php'
 		);
 		$constants = array(

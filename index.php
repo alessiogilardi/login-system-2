@@ -5,7 +5,10 @@ $sec = new Security(128);
 $rm = new RouteManager();
 $dis = new Dispatcher();
 $dis->setRouteManager($rm);
+$dis->setControllerPath(__DIR__.DIRECTORY_SEPARATOR.'controllers');
 $cont = $dis->dispatch();
+
+
 
 //echo parse_url($url, PHP_URL_PATH);
 

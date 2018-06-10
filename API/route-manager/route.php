@@ -16,17 +16,19 @@ class Route {
 	}
 */
 	public static function parseUri($aUri) {
-		$route = BASE_ROUTE;
+		//$route = BASE_ROUTE;
+		$temp = [];
 		$urlSegments = explode('/', $aUri);
-		if (count(Route::SCHEME) < count($urlSegments)) {
+		if (count($urlSegments) > count(Route::SCHEME)) {
 			throw new RuntimeException('Malformed URI', -15);
 		}
 
 		foreach ($urlSegments as $index => $segment) {
-			$route[Route::SCHEME[$index]] = $segment;
+			//$route[Route::SCHEME[$index]] = $segment;
+			$temp += [Route::SCHEME[$index] => $segment];
 		}
 
-		return $route;
+		return $temp;
 	}
 
 	private function parseParams() {
@@ -39,7 +41,7 @@ class Route {
 		$this->_uri 		= $aUri;
 		$this->_area 		= $route['area'];
 		$this->_controller 	= $route['controller'];
-		$this->_action 		= $route['action'];
+		$this->_action 		= isset($route['action'])?$route['action']:NULL;
 		$this->parseParams();
 	}
 
