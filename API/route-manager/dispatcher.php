@@ -24,12 +24,12 @@ class Dispatcher {
 	}
 
 	public function getClassName($controller) {
-        echo "<br>".str_replace($this->_delimiter, '', ucwords($controller, $this->_delimiter))."<br>";
+        //echo "<br>".str_replace($this->_delimiter, '', ucwords($controller, $this->_delimiter))."<br>";
 		return str_replace($this->_delimiter, '', ucwords($controller, $this->_delimiter));
 	}
 
 	public function getMethodName($action) {
-        echo "<br>".str_replace($this->_delimiter, '', lcfirst(ucwords($action, $this->_delimiter)))."<br>";
+        //echo "<br>".str_replace($this->_delimiter, '', lcfirst(ucwords($action, $this->_delimiter)))."<br>";
 		return str_replace($this->_delimiter, '', lcfirst(ucwords($action, $this->_delimiter))); // Va ritornata la action in camel case con la prima lettera minuscola
 	}
 
