@@ -4,12 +4,17 @@
  */
 class Loader
 {
+
+	// Folders
+	private const ROUTING = 'routing';
 	/*
 	public static function register() {
 		spl_autoload_register(function($className) {
 
 		});
 	}*/
+
+
 
 	public static function classmap() {
 		$routing = array(
